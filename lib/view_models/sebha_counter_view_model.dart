@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_sebha/models/custom_sebha_counter.dart';
 
+
 class SebhaCounterViewModel extends ChangeNotifier{
 //  int counter = 0;
 
@@ -15,9 +16,11 @@ class SebhaCounterViewModel extends ChangeNotifier{
   }
 
   addNewSebha(){
-    sebhaTitle = 'استغفر الله العظيم الذي لا إله إلا هو الحي القويم واتوب اليه';
+    sebhaTitle = 'استغفر الله العظيم الذي لا إله إلا هو الحي القيوم واتوب اليه';
     sebhaCount = 100;
 //    notifyListeners();
   }
+
+
 
 }

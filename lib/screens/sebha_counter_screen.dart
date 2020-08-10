@@ -16,7 +16,9 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
   double counter = 0;
   Color sebhaColor = Colors.green;
 
- SebhaCounterViewModel _sebhaCounterViewModel;
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  SebhaCounterViewModel _sebhaCounterViewModel;
 
   checkVibration() async {
     bool canVibrate = await Vibrate.canVibrate;
@@ -38,12 +40,23 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         title: Text('سبحتي'),
         centerTitle: true,
         actions: [
-          FlatButton(
-            child: Icon(Icons.settings_backup_restore,color: Colors.white,),
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: (){
+              _sebhaCounterViewModel.addNewSebha();
+              counter = 0;
+              setState(() {
+
+              });
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.settings_backup_restore,color: Colors.white,),
             onPressed: (){
               counter = 0;
               setState(() {
@@ -97,18 +110,19 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
                 child: SleekCircularSlider(
                   appearance: CircularSliderAppearance(
                     animationEnabled: false,
-
+                    customColors: CustomSliderColors(
+                      trackColor: Colors.green[100]
+                    ),
                     angleRange: 360,
                     size: 150,
 
 //                    spinnerMode: true,
-//                    startAngle: 150,
+                    startAngle: 270,
                     customWidths: CustomSliderWidths(
                       trackWidth: 10,
 //                      handlerSize: 100
                     ),
                     infoProperties: InfoProperties(
-
                     )
                   ),
                   min: 0,
@@ -146,17 +160,119 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: (){
-          _sebhaCounterViewModel.addNewSebha();
-          counter = 0;
-          setState(() {
-
-          });
+      floatingActionButton: InkWell(
+        onTap: (){
+          _settingModalBottomSheet(context);
         },
+        child: Container(
+          padding: EdgeInsets.all(5),
+          child: Text('الأذكار المحفوظة',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16),),
+          decoration: BoxDecoration(
+            color: Theme.of(context).accentColor,
+            border: Border.all(color: Colors.white,width: 1),
+            borderRadius: BorderRadius.all(Radius.circular(8))
+          ),
+        ),
       ),
 
+    );
+  }
+
+  void _settingModalBottomSheet(context){
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc){
+          return Scaffold(
+            backgroundColor: Theme.of(context).backgroundColor,
+            body: Container(
+              child: SingleChildScrollView(
+                child: new Column(
+                  children: [
+                    Card(
+                    child: ListTile(
+                      title: Container(
+
+                        child: Text('يتتا نتل يصل لصيل نتيلص لنتصيلتليص لصيل  نل يصنتلتلت نيصتلنل يصتل',
+                          style: TextStyle(fontSize: 18,color: Colors.green[900],)
+                          ,textAlign: TextAlign.end,),
+                        padding: EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          border: Border.all(color: Theme.of(context).accentColor,width: 0.5)
+                        ),
+                      ),
+                      subtitle: Row(
+                        children: [
+                          Text('العدد ١٠٠'),
+                          Spacer(),
+                          Icon(Icons.delete,color: Theme.of(context).accentColor,),
+                          SizedBox(width: 10,),
+                          Icon(Icons.edit,color: Theme.of(context).accentColor,)
+                        ],
+                      ),
+//                    trailing: ,
+                    ),
+                      elevation: 0,
+                  ),
+                    Card(
+                      child: ListTile(
+                        title: Container(
+
+                          child: Text('يتتا نتل يصل لصيل نتيلص لنتصيلتليص لصيل  نل يصنتلتلت نيصتلنل يصتل',
+                            style: TextStyle(fontSize: 18,color: Colors.green[900],)
+                            ,textAlign: TextAlign.end,),
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(5)),
+                              border: Border.all(color: Theme.of(context).accentColor,width: 0.5)
+                          ),
+                        ),
+                        subtitle: Row(
+                          children: [
+                            Text('العدد ١٠٠'),
+                            Spacer(),
+                            Icon(Icons.delete,color: Theme.of(context).accentColor,),
+                            SizedBox(width: 10,),
+                            Icon(Icons.edit,color: Theme.of(context).accentColor,)
+                          ],
+                        ),
+//                    trailing: ,
+                      ),
+                    ),
+                    Card(
+                      child: ListTile(
+                        title: Container(
+
+                          child: Text('يتتا نتل يصل لصيل نتيلص لنتصيلتليص لصيل  نل يصنتلتلت نيصتلنل يصتل',
+                            style: TextStyle(fontSize: 18,color: Colors.green[900],)
+                            ,textAlign: TextAlign.end,),
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(5)),
+                              border: Border.all(color: Theme.of(context).accentColor,width: 0.5)
+                          ),
+                        ),
+                        subtitle: Row(
+                          children: [
+                            Text('العدد ١٠٠'),
+                            Spacer(),
+                            Icon(Icons.delete,color: Theme.of(context).accentColor,),
+                            SizedBox(width: 10,),
+                            Icon(Icons.edit,color: Theme.of(context).accentColor,)
+                          ],
+                        ),
+//                    trailing: ,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              decoration: BoxDecoration(
+                color: Theme.of(context).backgroundColor
+              ),
+            ),
+          );
+        }
     );
   }
 }
