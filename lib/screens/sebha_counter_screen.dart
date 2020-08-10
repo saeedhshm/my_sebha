@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:my_sebha/models/zikr.dart';
 import 'package:my_sebha/view_models/sebha_counter_view_model.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:flutter/material.dart';
@@ -178,97 +179,68 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
     );
   }
 
-  void _settingModalBottomSheet(context){
+  void _settingModalBottomSheet(context) async {
+
+    List<Zikr> userAzkar = await _sebhaCounterViewModel.retrieveUserZikr();
+
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bc){
           return Scaffold(
-            backgroundColor: Theme.of(context).backgroundColor,
+//            backgroundColor: Theme.of(context).backgroundColor,
+          appBar: AppBar(
+            leading: Icon(Icons.close),
+          ),
             body: Container(
-              child: SingleChildScrollView(
-                child: new Column(
-                  children: [
-                    Card(
+              child: ListView.builder(
+                itemCount: userAzkar.length,
+                itemBuilder: (context,index){
+                  return Card(
                     child: ListTile(
                       title: Container(
 
-                        child: Text('يتتا نتل يصل لصيل نتيلص لنتصيلتليص لصيل  نل يصنتلتلت نيصتلنل يصتل',
+                        child: Text(userAzkar[index].zikrName,
                           style: TextStyle(fontSize: 18,color: Colors.green[900],)
                           ,textAlign: TextAlign.end,),
                         padding: EdgeInsets.all(5),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                          border: Border.all(color: Theme.of(context).accentColor,width: 0.5)
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            border: Border.all(color: Theme.of(context).accentColor,width: 0.5)
                         ),
                       ),
                       subtitle: Row(
                         children: [
-                          Text('العدد ١٠٠'),
+                          Text('العدد ${userAzkar[index].count}'),
                           Spacer(),
-                          Icon(Icons.delete,color: Theme.of(context).accentColor,),
-                          SizedBox(width: 10,),
-                          Icon(Icons.edit,color: Theme.of(context).accentColor,)
+                          IconButton(
+                            icon: Icon(Icons.delete,color: Theme.of(context).accentColor,),
+                            onPressed: () async{
+                              await _sebhaCounterViewModel.deleteZikr(userAzkar[index].id);
+                              setState(() {
+
+                              });
+                            },
+                          ),
+//                          SizedBox(width: 10,),
+                          IconButton(
+                            icon: Icon(Icons.edit,color: Theme.of(context).accentColor,),
+                            onPressed: (){},
+                          ),
+//                          SizedBox(width: 10,),
+                          IconButton(
+                            icon: Icon(userAzkar[index].isFavourite ? Icons.favorite : Icons.favorite_border ,color: Theme.of(context).accentColor,),
+                            onPressed: (){},
+                          ),
                         ],
                       ),
 //                    trailing: ,
                     ),
-                      elevation: 0,
-                  ),
-                    Card(
-                      child: ListTile(
-                        title: Container(
-
-                          child: Text('يتتا نتل يصل لصيل نتيلص لنتصيلتليص لصيل  نل يصنتلتلت نيصتلنل يصتل',
-                            style: TextStyle(fontSize: 18,color: Colors.green[900],)
-                            ,textAlign: TextAlign.end,),
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(5)),
-                              border: Border.all(color: Theme.of(context).accentColor,width: 0.5)
-                          ),
-                        ),
-                        subtitle: Row(
-                          children: [
-                            Text('العدد ١٠٠'),
-                            Spacer(),
-                            Icon(Icons.delete,color: Theme.of(context).accentColor,),
-                            SizedBox(width: 10,),
-                            Icon(Icons.edit,color: Theme.of(context).accentColor,)
-                          ],
-                        ),
-//                    trailing: ,
-                      ),
-                    ),
-                    Card(
-                      child: ListTile(
-                        title: Container(
-
-                          child: Text('يتتا نتل يصل لصيل نتيلص لنتصيلتليص لصيل  نل يصنتلتلت نيصتلنل يصتل',
-                            style: TextStyle(fontSize: 18,color: Colors.green[900],)
-                            ,textAlign: TextAlign.end,),
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(5)),
-                              border: Border.all(color: Theme.of(context).accentColor,width: 0.5)
-                          ),
-                        ),
-                        subtitle: Row(
-                          children: [
-                            Text('العدد ١٠٠'),
-                            Spacer(),
-                            Icon(Icons.delete,color: Theme.of(context).accentColor,),
-                            SizedBox(width: 10,),
-                            Icon(Icons.edit,color: Theme.of(context).accentColor,)
-                          ],
-                        ),
-//                    trailing: ,
-                      ),
-                    ),
-                  ],
-                ),
+//                    elevation: 0,
+                  );
+                },
               ),
               decoration: BoxDecoration(
-                color: Theme.of(context).backgroundColor
+//                color: Theme.of(context).backgroundColor
               ),
             ),
           );
