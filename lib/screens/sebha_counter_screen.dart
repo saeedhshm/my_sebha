@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import 'package:my_sebha/models/zikr.dart';
+import 'package:my_sebha/models/my_zikr.dart';
 import 'package:my_sebha/view_models/sebha_counter_view_model.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:flutter/material.dart';
@@ -49,11 +49,7 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
           IconButton(
             icon: Icon(Icons.add),
             onPressed: (){
-              _sebhaCounterViewModel.addNewSebha();
-              counter = 0;
-              setState(() {
-
-              });
+              _showMyDialog();
             },
           ),
           IconButton(
@@ -81,6 +77,7 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
             Expanded(
               child: Center(
                 child: Container(
+                  padding: EdgeInsets.all(5),
                   child: Text(_sebhaCounterViewModel.sebhaTitle,style: TextStyle(fontSize: 25,color: Colors.white, ),textAlign: TextAlign.center,),
                   decoration: BoxDecoration(
                     color: Theme.of(context).accentColor,
@@ -175,13 +172,35 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
           ),
         ),
       ),
+      bottomNavigationBar: BottomAppBar(
+
+        child: Container(
+
+          width: MediaQuery.of(context).size.width,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconButton(icon: Icon(Icons.ac_unit,color: Colors.white,), onPressed: (){
+                print('object');
+              }),
+              IconButton(icon: Icon(Icons.ac_unit,color: Colors.white,), onPressed: (){
+                print('object');
+              }),
+              IconButton(icon: Icon(Icons.ac_unit,color: Colors.white,), onPressed: (){
+                print('object');
+              }),
+            ],
+          ),
+          color: Theme.of(context).accentColor,
+        ),
+      ),
 
     );
   }
 
   void _settingModalBottomSheet(context) async {
 
-    List<Zikr> userAzkar = await _sebhaCounterViewModel.retrieveUserZikr();
+    List<MyZikr> userAzkar = await _sebhaCounterViewModel.retrieveUserZikr();
 
     showModalBottomSheet(
         context: context,
@@ -189,17 +208,28 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
           return Scaffold(
 //            backgroundColor: Theme.of(context).backgroundColor,
           appBar: AppBar(
-            leading: Icon(Icons.close),
+            leading: InkWell(child: Icon(Icons.close),onTap: (){
+              Navigator.of(context).pop();
+            },),
           ),
             body: Container(
               child: ListView.builder(
                 itemCount: userAzkar.length,
                 itemBuilder: (context,index){
                   return Card(
+
                     child: ListTile(
+                      onTap: (){
+                        print(userAzkar[index].toMap());
+                        _sebhaCounterViewModel.setCurrentSebha(userAzkar[index]);
+                        Navigator.of(context).pop();
+                        setState(() {
+                          counter = 0;
+                        });
+                      },
                       title: Container(
 
-                        child: Text(userAzkar[index].zikrName,
+                        child: Text(userAzkar[index].zikrName ?? 'no zikr',
                           style: TextStyle(fontSize: 18,color: Colors.green[900],)
                           ,textAlign: TextAlign.end,),
                         padding: EdgeInsets.all(5),
@@ -229,7 +259,9 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
 //                          SizedBox(width: 10,),
                           IconButton(
                             icon: Icon(userAzkar[index].isFavourite ? Icons.favorite : Icons.favorite_border ,color: Theme.of(context).accentColor,),
-                            onPressed: (){},
+                            onPressed: (){
+                              _sebhaCounterViewModel.toggleFavorite(zikr: userAzkar[index]);
+                            },
                           ),
                         ],
                       ),
@@ -243,8 +275,106 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
 //                color: Theme.of(context).backgroundColor
               ),
             ),
+            bottomNavigationBar: Container(
+              height: 100,
+              color: Colors.amber,
+            ),
           );
         }
+    );
+  }
+
+  Future<void> _showMyDialog() async {
+    MyZikr zikr = MyZikr();
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('إضافة ذكر جديد'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                TextFormField(
+                  onChanged: (value){
+                    if(value.isNotEmpty)
+                      zikr.zikrName = value;
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'الذكر',
+                    hintText: 'الذكر المراد إدخاله'
+                  ),
+                ),
+                TextFormField(
+                  keyboardType: TextInputType.number,
+                  onChanged: (value){
+                    if(value.isNotEmpty)
+                      zikr.count = int.parse(value);
+                  },
+
+                  decoration: InputDecoration(
+                      labelText: 'العدد',
+                      hintText: 'عدد الذكر في كل مرة'
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('تم'),
+
+              onPressed: () async{
+                if((zikr.zikrName.isNotEmpty) && ( zikr.count != 0)) {
+                  await _sebhaCounterViewModel.addNewSebha(zikr: zikr);
+                  Navigator.of(context).pop();
+                  _showErrorDialog(true);
+                }else {
+                  Navigator.of(context).pop();
+                  print('no zikr found ==== ${zikr.zikrName} == ${zikr.count}');
+                  _showErrorDialog(false);
+                }
+              },
+            ),
+            FlatButton(
+              child: Text('إغلاق'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showErrorDialog(bool done) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(done ? 'تم' : 'هناك خطأ'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(done ? 'تمت الإضافة بنجاح' : 'لم تتم الإضافة'),
+                !done ? Text('لم يتم إدخال الذكر او العدد') : Container()
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                if(!done)
+                  _showMyDialog();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -1,28 +1,49 @@
+class Zikr {
+  String _category;
+  String _count;
+  String _description;
+  String _reference;
+  String _zekr;
 
-class Zikr{
- String zikrName;
- int count;
- int id;
- bool isFavourite;
- String zikrType;
+  Zikr(
+      {String category,
+        String count,
+        String description,
+        String reference,
+        String zekr}) {
+    this._category = category;
+    this._count = count;
+    this._description = description;
+    this._reference = reference;
+    this._zekr = zekr;
+  }
 
- Zikr({this.count,this.zikrName,this.isFavourite = false,this.zikrType});
+  String get category => _category;
+//  set category(String category) => _category = category;
+  int get count => int.parse(_count);
+//  set count(String count) => _count = count;
+  String get description => _description;
+//  set description(String description) => _description = description;
+  String get reference => _reference;
+//  set reference(String reference) => _reference = reference;
+  String get zekr => _zekr;
+//  set zekr(String zekr) => _zekr = zekr;
 
- Map<String, dynamic> toMap() {
-  return {
-//   'id': id,
-   'zikrName': zikrName,
-   'count': count,
-   'isFavourite' : isFavourite ? 'T' : 'F' ,
-   'zikrType' : zikrType
-  };
- }
+  Zikr.fromJson(Map<String, dynamic> json) {
+    _category = json['category'];
+    _count = json['count'];
+    _description = json['description'];
+    _reference = json['reference'];
+    _zekr = json['zekr'];
+  }
 
- Zikr.fromMap(Map<String,dynamic> map){
-  id = map['id'];
-  zikrName = map['zikrName'];
-  count = map['count'];
-  zikrType = map['zikrType'];
-  isFavourite = map['isFavourite'] == 'T';
- }
+//  Map<String, dynamic> toJson() {
+//    final Map<String, dynamic> data = new Map<String, dynamic>();
+//    data['category'] = this._category;
+//    data['count'] = this._count;
+//    data['description'] = this._description;
+//    data['reference'] = this._reference;
+//    data['zekr'] = this._zekr;
+//    return data;
+//  }
 }

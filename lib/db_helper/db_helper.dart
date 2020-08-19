@@ -1,12 +1,16 @@
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:my_sebha/models/zikr.dart';
+import 'package:flutter/services.dart';
+import 'package:my_sebha/models/my_zikr.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:flutter/material.dart';
 
 
 class DBHelper{
    Future<Database> _database;
-   final String db_name = 'moslem_azkar.db';
+   final String db_name = 'azkary.db';
    final String _createTable;
 
    DBHelper(this._createTable){
@@ -15,11 +19,15 @@ class DBHelper{
 
   openDB()async{
     // Open the database and store the reference.
-    _database = openDatabase(
+
+    var databasesPath = await getDatabasesPath();
+    String path = join(databasesPath,db_name);
+
+    _database =  openDatabase(
       // Set the path to the database. Note: Using the `join` function from the
       // `path` package is best practice to ensure the path is correctly
       // constructed for each platform.
-      join(await getDatabasesPath(), db_name),
+      path,
       // When the database is first created, create a table to store dogs.
       onCreate: (db, version) {
         // Run the CREATE TABLE statement on the database.
@@ -33,6 +41,9 @@ class DBHelper{
       version: 1,
 
     );
+    _database.then((value) {
+      print(value.path);
+    });
   }
 
 
@@ -59,8 +70,10 @@ class DBHelper{
      // Get a reference to the database.
      final Database db = await _database;
 
+     print(db.path);
      // Query the table for all The Dogs.
      final List<Map<String, dynamic>> maps = await db.query(table);
+     print(maps);
 
      // Convert the List<Map<String, dynamic> into a List<Dog>.
      return maps;
@@ -81,12 +94,12 @@ class DBHelper{
      print(result);
    }
 
-   Future<void> updateDog({@required String table,@required Map<String, dynamic> map}) async {
+   Future<void> update({@required String table,@required Map<String, dynamic> map}) async {
      // Get a reference to the database.
      final db = await _database;
 
      // Update the given Dog.
-     await db.update(
+     var result = await db.update(
        table,
        map,
        // Ensure that the Dog has a matching id.
@@ -94,6 +107,7 @@ class DBHelper{
        // Pass the Dog's id as a whereArg to prevent SQL injection.
        whereArgs: [map['id']],
      );
+     print(result);
    }
 
 
