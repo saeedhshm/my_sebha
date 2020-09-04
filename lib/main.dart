@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_sebha/db_helper/json_helper.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:my_sebha/models/counter.dart';
 import 'package:my_sebha/screens/azkar_home.dart';
 import 'package:my_sebha/screens/sebha_counter_screen.dart';
@@ -17,6 +17,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [
+        // ... app-specific localization delegate[s] here
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('ar', ''), // Arabic, no country code
+        // ... other locales the app supports
+      ],
       title: 'سبحتي',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
