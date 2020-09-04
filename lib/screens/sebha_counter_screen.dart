@@ -42,28 +42,7 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
 
     return Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(
-        title: Text('سبحتي'),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: (){
-              _showMyDialog();
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.settings_backup_restore,color: Colors.white,),
-            onPressed: (){
-              counter = 0;
-              setState(() {
 
-              });
-            },
-          ),
-
-        ],
-      ),
       backgroundColor: Theme.of(context).backgroundColor,
 
       body: Container(
@@ -97,9 +76,9 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
                 if(counter < _sebhaCounterViewModel.sebhaCount)
                    counter++;
 
-               setState(() {
-
-               });
+//               setState(() {
+//
+//               });
               },
               child: Container(
 //                alignment: Alignment.bottomCenter,,
@@ -172,28 +151,6 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-
-        child: Container(
-
-          width: MediaQuery.of(context).size.width,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              IconButton(icon: Icon(Icons.ac_unit,color: Colors.white,), onPressed: (){
-                print('object');
-              }),
-              IconButton(icon: Icon(Icons.ac_unit,color: Colors.white,), onPressed: (){
-                print('object');
-              }),
-              IconButton(icon: Icon(Icons.ac_unit,color: Colors.white,), onPressed: (){
-                print('object');
-              }),
-            ],
-          ),
-          color: Theme.of(context).accentColor,
-        ),
-      ),
 
     );
   }
@@ -223,9 +180,9 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
                         print(userAzkar[index].toMap());
                         _sebhaCounterViewModel.setCurrentSebha(userAzkar[index]);
                         Navigator.of(context).pop();
-                        setState(() {
-                          counter = 0;
-                        });
+//                        setState(() {
+//                          counter = 0;
+//                        });
                       },
                       title: Container(
 
@@ -246,9 +203,9 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
                             icon: Icon(Icons.delete,color: Theme.of(context).accentColor,),
                             onPressed: () async{
                               await _sebhaCounterViewModel.deleteZikr(userAzkar[index].id);
-                              setState(() {
-
-                              });
+//                              setState(() {
+//
+//                              });
                             },
                           ),
 //                          SizedBox(width: 10,),
@@ -275,10 +232,7 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
 //                color: Theme.of(context).backgroundColor
               ),
             ),
-            bottomNavigationBar: Container(
-              height: 100,
-              color: Colors.amber,
-            ),
+
           );
         }
     );

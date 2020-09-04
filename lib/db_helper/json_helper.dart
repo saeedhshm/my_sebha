@@ -7,11 +7,10 @@ class ReadJson{
     return await rootBundle.loadString("assets/db/azkar.json");
   }
 
-  Future parseJson() async {
+  Future<dynamic> parseJson() async {
     String jsonString = await _loadFromAsset();
 
     final jsonResponse = jsonDecode(jsonString);
-    for(var map in jsonResponse)
-      print(map);
+    return jsonResponse;
   }
 }
