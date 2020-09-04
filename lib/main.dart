@@ -5,6 +5,7 @@ import 'package:my_sebha/screens/azkar_home.dart';
 import 'package:my_sebha/screens/sebha_counter_screen.dart';
 import 'package:my_sebha/screens/tabs_screen.dart';
 import 'package:my_sebha/view_models/azkar_home_view_model.dart';
+import 'package:my_sebha/view_models/tabs_view_model.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
         backgroundColor: Colors.green[50],
 
         appBarTheme: AppBarTheme(
-            textTheme: TextTheme(title:TextStyle(color: Colors.white,fontSize: 30,fontWeight: FontWeight.bold) )
+            textTheme: TextTheme(title:TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.bold) )
         ),
         floatingActionButtonTheme: FloatingActionButtonThemeData(
             backgroundColor: Colors.green,
@@ -55,7 +56,10 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home:TabsHomeScreen(),
+      home:ChangeNotifierProvider(
+        create: (_)=>TabsViewModel(),
+        child: TabsHomeScreen(),
+      ),
     );
   }
 }

@@ -44,6 +44,28 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
       key: scaffoldKey,
 
       backgroundColor: Theme.of(context).backgroundColor,
+      appBar:  AppBar(
+        title: Text('سبحتي'),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+//    _showMyDialog();
+            },
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.settings_backup_restore,
+              color: Colors.white,
+            ),
+            onPressed: () {
+//    counter = 0;
+              setState(() {});
+            },
+          ),
+        ],
+      ) ,
 
       body: Container(
         padding: EdgeInsets.all(16),

@@ -6,11 +6,11 @@ import 'package:provider/provider.dart';
 
 class AzkarHomeScreen extends StatelessWidget {
 
-//  AzkarHomeViewModel _viewModel = AzkarHomeViewModel();
   @override
   Widget build(BuildContext context) {
     final _viewModel = Provider.of<AzkarHomeViewModel>(context);
     return Scaffold(
+      appBar: AppBar(title: Text('الأذكار'),centerTitle: true,),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 16,horizontal: 16),
         child: ListView.builder(
