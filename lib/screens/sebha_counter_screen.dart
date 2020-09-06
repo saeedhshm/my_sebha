@@ -1,25 +1,21 @@
 import 'package:flutter/services.dart';
 import 'package:my_sebha/models/my_zikr.dart';
+import 'package:my_sebha/screens/my_azkar_list_home.dart';
 import 'package:my_sebha/view_models/sebha_counter_view_model.dart';
+import 'package:provider/provider.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vibrate/flutter_vibrate.dart';
 
 
-class SebhaCounterScreen extends StatefulWidget {
+class SebhaCounterScreen extends StatelessWidget {
 
-  @override
-  _SebhaCounterScreenState createState() => _SebhaCounterScreenState();
-}
-
-class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
-
-  double counter = 0;
+//  double counter = 0;
   Color sebhaColor = Colors.green;
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  SebhaCounterViewModel _sebhaCounterViewModel;
+//  SebhaCounterViewModel _sebhaCounterViewModel;
 
   checkVibration() async {
     bool canVibrate = await Vibrate.canVibrate;
@@ -29,17 +25,12 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
   }
 
   _SebhaCounterScreenState(){
-    _sebhaCounterViewModel = SebhaCounterViewModel();
+//    _sebhaCounterViewModel = SebhaCounterViewModel();
   }
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    checkVibration();
-  }
+
   @override
   Widget build(BuildContext context) {
-
+final _sebhaCounterViewModel = Provider.of<SebhaCounterViewModel>(context);
     return Scaffold(
       key: scaffoldKey,
 
@@ -51,7 +42,7 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () {
-//    _showMyDialog();
+    _showMyDialog(context);
             },
           ),
           IconButton(
@@ -60,8 +51,8 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
               color: Colors.white,
             ),
             onPressed: () {
-//    counter = 0;
-              setState(() {});
+            _sebhaCounterViewModel.resetCounter();
+
             },
           ),
         ],
@@ -79,7 +70,7 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
               child: Center(
                 child: Container(
                   padding: EdgeInsets.all(5),
-                  child: Text(_sebhaCounterViewModel.sebhaTitle,style: TextStyle(fontSize: 25,color: Colors.white, ),textAlign: TextAlign.center,),
+                  child: Text(_sebhaCounterViewModel.currentSebha.zikrName,style: TextStyle(fontSize: 25,color: Colors.white, ),textAlign: TextAlign.center,),
                   decoration: BoxDecoration(
                     color: Theme.of(context).accentColor,
                     borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -92,15 +83,13 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
 
             InkWell(
               onTap: (){
-                if(counter == _sebhaCounterViewModel.sebhaCount-1)
+                if(_sebhaCounterViewModel.sebhaCounter == _sebhaCounterViewModel.currentSebha.count-1)
                   Vibrate.vibrate();
 
-                if(counter < _sebhaCounterViewModel.sebhaCount)
-                   counter++;
+                if(_sebhaCounterViewModel.sebhaCounter < _sebhaCounterViewModel.currentSebha.count)
+                  _sebhaCounterViewModel.incrementCounter();
 
-//               setState(() {
-//
-//               });
+
               },
               child: Container(
 //                alignment: Alignment.bottomCenter,,
@@ -126,8 +115,8 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
                   ),
                   min: 0,
 
-                  max: _sebhaCounterViewModel.sebhaCount.toDouble(),
-                  initialValue: counter,
+                  max: _sebhaCounterViewModel.currentSebha.count.toDouble(),
+                  initialValue: _sebhaCounterViewModel.sebhaCounter,
                   onChange: (double value) {
                     // callback providing a value while its being changed (with a pan gesture)
 
@@ -141,7 +130,7 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
                   innerWidget: (double value) {
                     // use your custom widget inside the slider (gets a slider value from the callback)
                     return Center(
-                      child: Text('${value.toInt()}/${_sebhaCounterViewModel.sebhaCount}',style: TextStyle(
+                      child: Text('${value.toInt()}/${_sebhaCounterViewModel.currentSebha.count}',style: TextStyle(
                         color: Colors.white,
                         fontSize: 35,
                         fontWeight: FontWeight.bold
@@ -161,7 +150,10 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
       ),
       floatingActionButton: InkWell(
         onTap: (){
-          _settingModalBottomSheet(context);
+          ChangeNotifierProvider(
+            create: (_)=>_sebhaCounterViewModel,
+            child: _settingModalBottomSheet(context),
+          );
         },
         child: Container(
           padding: EdgeInsets.all(5),
@@ -177,91 +169,25 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
     );
   }
 
-  void _settingModalBottomSheet(context) async {
+  Widget _settingModalBottomSheet(context)  {
+    final _sebhaCounterViewModel = Provider.of<SebhaCounterViewModel>(context,listen: false);
 
-    List<MyZikr> userAzkar = await _sebhaCounterViewModel.retrieveUserZikr();
+      _sebhaCounterViewModel.retrieveUserZikr();
 
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bc){
-          return Scaffold(
-//            backgroundColor: Theme.of(context).backgroundColor,
-          appBar: AppBar(
-            leading: InkWell(child: Icon(Icons.close),onTap: (){
-              Navigator.of(context).pop();
-            },),
-          ),
-            body: Container(
-              child: ListView.builder(
-                itemCount: userAzkar.length,
-                itemBuilder: (context,index){
-                  return Card(
-
-                    child: ListTile(
-                      onTap: (){
-                        print(userAzkar[index].toMap());
-                        _sebhaCounterViewModel.setCurrentSebha(userAzkar[index]);
-                        Navigator.of(context).pop();
-//                        setState(() {
-//                          counter = 0;
-//                        });
-                      },
-                      title: Container(
-
-                        child: Text(userAzkar[index].zikrName ?? 'no zikr',
-                          style: TextStyle(fontSize: 18,color: Colors.green[900],)
-                          ,textAlign: TextAlign.end,),
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                            border: Border.all(color: Theme.of(context).accentColor,width: 0.5)
-                        ),
-                      ),
-                      subtitle: Row(
-                        children: [
-                          Text('العدد ${userAzkar[index].count}'),
-                          Spacer(),
-                          IconButton(
-                            icon: Icon(Icons.delete,color: Theme.of(context).accentColor,),
-                            onPressed: () async{
-                              await _sebhaCounterViewModel.deleteZikr(userAzkar[index].id);
-//                              setState(() {
-//
-//                              });
-                            },
-                          ),
-//                          SizedBox(width: 10,),
-                          IconButton(
-                            icon: Icon(Icons.edit,color: Theme.of(context).accentColor,),
-                            onPressed: (){},
-                          ),
-//                          SizedBox(width: 10,),
-                          IconButton(
-                            icon: Icon(userAzkar[index].isFavourite ? Icons.favorite : Icons.favorite_border ,color: Theme.of(context).accentColor,),
-                            onPressed: (){
-                              _sebhaCounterViewModel.toggleFavorite(zikr: userAzkar[index]);
-                            },
-                          ),
-                        ],
-                      ),
-//                    trailing: ,
-                    ),
-//                    elevation: 0,
-                  );
-                },
-              ),
-              decoration: BoxDecoration(
-//                color: Theme.of(context).backgroundColor
-              ),
-            ),
-
+          return ChangeNotifierProvider.value(
+            value: _sebhaCounterViewModel,
+            child: MyAzkarListHome(),
           );
         }
     );
   }
 
-  Future<void> _showMyDialog() async {
+  Future<void> _showMyDialog(context) async {
     MyZikr zikr = MyZikr();
+    final _viewModel = Provider.of<SebhaCounterViewModel>(context,listen: false);
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -302,13 +228,13 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
 
               onPressed: () async{
                 if((zikr.zikrName.isNotEmpty) && ( zikr.count != 0)) {
-                  await _sebhaCounterViewModel.addNewSebha(zikr: zikr);
+                  await _viewModel.addNewSebha(zikr: zikr);
                   Navigator.of(context).pop();
-                  _showErrorDialog(true);
+                  _showErrorDialog(true,context);
                 }else {
                   Navigator.of(context).pop();
                   print('no zikr found ==== ${zikr.zikrName} == ${zikr.count}');
-                  _showErrorDialog(false);
+                  _showErrorDialog(false,context);
                 }
               },
             ),
@@ -324,7 +250,7 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
     );
   }
 
-  Future<void> _showErrorDialog(bool done) async {
+  Future<void> _showErrorDialog(bool done,BuildContext context) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -345,7 +271,7 @@ class _SebhaCounterScreenState extends State<SebhaCounterScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
                 if(!done)
-                  _showMyDialog();
+                  _showMyDialog(context);
               },
             ),
           ],

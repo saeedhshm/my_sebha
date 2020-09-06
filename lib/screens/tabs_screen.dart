@@ -3,6 +3,7 @@ import 'package:my_sebha/screens/azkar_home.dart';
 import 'package:my_sebha/screens/info_screen.dart';
 import 'package:my_sebha/screens/sebha_counter_screen.dart';
 import 'package:my_sebha/view_models/azkar_home_view_model.dart';
+import 'package:my_sebha/view_models/sebha_counter_view_model.dart';
 import 'package:my_sebha/view_models/tabs_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -59,6 +60,9 @@ class TabsHomeScreen extends StatelessWidget {
     return  currentTab == Tabs.azkar ? ChangeNotifierProvider(
       create: (_)=>AzkarHomeViewModel(),
       child: AzkarHomeScreen(),
-    ) :currentTab == Tabs.sebha ? SebhaCounterScreen():InfoScreen();
+    ) :currentTab == Tabs.sebha ? ChangeNotifierProvider(
+      create: (_)=>SebhaCounterViewModel(),
+      child: SebhaCounterScreen(),
+    ):InfoScreen();
   }
 }

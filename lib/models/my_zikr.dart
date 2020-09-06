@@ -4,10 +4,10 @@ class MyZikr{
  int count;
  int id;
  bool isFavourite;
- String zikrType;
+
  String zikrBinifit;
 
- MyZikr({this.count = 0,this.zikrName = '',this.isFavourite = false,this.zikrType });
+ MyZikr({this.count = 0,this.zikrName = '',this.isFavourite = false, });
 
  Map<String, dynamic> toMap() {
   return {
@@ -15,7 +15,7 @@ class MyZikr{
    'zikrName': zikrName,
    'count': count,
    'isFavourite' : isFavourite ? 'T' : 'F' ,
-   'zikrType' : zikrType
+
   };
  }
 
@@ -23,7 +23,7 @@ class MyZikr{
   id = map['id'];
   zikrName = map['zikrName'];
   count = map['count'];
-  zikrType = map['zikrType'];
+
   isFavourite = map['isFavourite'] == 'T';
  }
 }
