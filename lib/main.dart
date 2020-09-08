@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         const Locale('ar', ''), // Arabic, no country code
         // ... other locales the app supports
       ],
-      title: 'سبحتي',
+      title: 'سبحة الأذكار',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
