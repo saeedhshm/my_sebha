@@ -30,143 +30,147 @@ class SebhaCounterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-final _sebhaCounterViewModel = Provider.of<SebhaCounterViewModel>(context);
-    return Scaffold(
-      key: scaffoldKey,
+// final _sebhaCounterViewModel = Provider.of<SebhaCounterViewModel>(context);
 
-      backgroundColor: Theme.of(context).backgroundColor,
-      appBar:  AppBar(
-        title: Text('سبحتي'),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-    _showMyDialog(context);
-            },
-          ),
-          IconButton(
-            icon: Icon(
-              Icons.settings_backup_restore,
-              color: Colors.white,
+print("sadasdad asd as da sd asd a d");
+    return Consumer<SebhaCounterViewModel>(builder: (context,_sebhaCounterViewModel,cild){
+      return Scaffold(
+        key: scaffoldKey,
+
+        backgroundColor: Theme.of(context).backgroundColor,
+        appBar:  AppBar(
+          title: Text('سبحتي'),
+          centerTitle: true,
+          actions: [
+            IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                _showMyDialog(context);
+              },
             ),
-            onPressed: () {
-            _sebhaCounterViewModel.resetCounter();
-
-            },
-          ),
-        ],
-      ) ,
-
-      body: Container(
-        padding: EdgeInsets.all(16),
-        alignment: Alignment.bottomCenter,
-//        color: Colors.red,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Expanded(
-              child: Center(
-                child: Container(
-                  padding: EdgeInsets.all(5),
-                  child: Text(_sebhaCounterViewModel.currentSebha.zikrName,style: TextStyle(fontSize: 25,color: Colors.white, ),textAlign: TextAlign.center,),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).accentColor,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    border: Border.all(color: Colors.green,width: 2)
-                  ),
-                ),
+            IconButton(
+              icon: Icon(
+                Icons.settings_backup_restore,
+                color: Colors.white,
               ),
-            ),
-
-
-            InkWell(
-              onTap: (){
-                if(_sebhaCounterViewModel.sebhaCounter == _sebhaCounterViewModel.currentSebha.count-1)
-                  Vibrate.vibrate();
-
-                if(_sebhaCounterViewModel.sebhaCounter < _sebhaCounterViewModel.currentSebha.count)
-                  _sebhaCounterViewModel.incrementCounter();
-
+              onPressed: () {
+                _sebhaCounterViewModel.resetCounter();
 
               },
-              child: Container(
-//                alignment: Alignment.bottomCenter,,
-              width : MediaQuery.of(context).size.width - 33,
-                height : MediaQuery.of(context).size.width - 33,
-                child: SleekCircularSlider(
-                  appearance: CircularSliderAppearance(
-                    animationEnabled: false,
-                    customColors: CustomSliderColors(
-                      trackColor: Colors.green[100]
-                    ),
-                    angleRange: 360,
-                    size: 150,
-
-//                    spinnerMode: true,
-                    startAngle: 270,
-                    customWidths: CustomSliderWidths(
-                      trackWidth: 10,
-//                      handlerSize: 100
-                    ),
-                    infoProperties: InfoProperties(
-                    )
-                  ),
-                  min: 0,
-
-                  max: _sebhaCounterViewModel.currentSebha.count.toDouble(),
-                  initialValue: _sebhaCounterViewModel.sebhaCounter,
-                  onChange: (double value) {
-                    // callback providing a value while its being changed (with a pan gesture)
-
-                  },
-                  onChangeStart: (double startValue) {
-                    // callback providing a starting value (when a pan gesture starts)
-                  },
-                  onChangeEnd: (double endValue) {
-                    // ucallback providing an ending value (when a pan gesture ends)
-                  },
-                  innerWidget: (double value) {
-                    // use your custom widget inside the slider (gets a slider value from the callback)
-                    return Center(
-                      child: Text('${value.toInt()}/${_sebhaCounterViewModel.currentSebha.count}',style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 35,
-                        fontWeight: FontWeight.bold
-                      ),textAlign: TextAlign.center,),
-                    );
-                  },
-                ),
-
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: sebhaColor,
-                ),
-              ),
             ),
           ],
-        ),
-      ),
-      floatingActionButton: InkWell(
-        onTap: (){
-          ChangeNotifierProvider(
-            create: (_)=>_sebhaCounterViewModel,
-            child: _settingModalBottomSheet(context),
-          );
-        },
-        child: Container(
-          padding: EdgeInsets.all(5),
-          child: Text('الأذكار المحفوظة',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16),),
-          decoration: BoxDecoration(
-            color: Theme.of(context).accentColor,
-            border: Border.all(color: Colors.white,width: 1),
-            borderRadius: BorderRadius.all(Radius.circular(8))
+        ) ,
+
+        body: Container(
+          padding: EdgeInsets.all(16),
+          alignment: Alignment.bottomCenter,
+//        color: Colors.red,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Expanded(
+                child: Center(
+                  child: Container(
+                    padding: EdgeInsets.all(5),
+                    child: Text(_sebhaCounterViewModel.currentSebha.zikrName,style: TextStyle(fontSize: 25,color: Colors.white, ),textAlign: TextAlign.center,),
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).accentColor,
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        border: Border.all(color: Colors.green,width: 2)
+                    ),
+                  ),
+                ),
+              ),
+
+
+              InkWell(
+                onTap: (){
+                  if(_sebhaCounterViewModel.sebhaCounter == _sebhaCounterViewModel.currentSebha.count-1)
+                    Vibrate.vibrate();
+
+                  if(_sebhaCounterViewModel.sebhaCounter < _sebhaCounterViewModel.currentSebha.count)
+                    _sebhaCounterViewModel.incrementCounter();
+
+
+                },
+                child: Container(
+//                alignment: Alignment.bottomCenter,,
+                  width : MediaQuery.of(context).size.width - 33,
+                  height : MediaQuery.of(context).size.width - 33,
+                  child: SleekCircularSlider(
+                    appearance: CircularSliderAppearance(
+                        animationEnabled: false,
+                        customColors: CustomSliderColors(
+                            trackColor: Colors.green[100]
+                        ),
+                        angleRange: 360,
+                        size: 150,
+
+//                    spinnerMode: true,
+                        startAngle: 270,
+                        customWidths: CustomSliderWidths(
+                          trackWidth: 10,
+//                      handlerSize: 100
+                        ),
+                        infoProperties: InfoProperties(
+                        )
+                    ),
+                    min: 0,
+
+                    max: _sebhaCounterViewModel.currentSebha.count.toDouble(),
+                    initialValue: _sebhaCounterViewModel.sebhaCounter,
+                    onChange: (double value) {
+                      // callback providing a value while its being changed (with a pan gesture)
+
+                    },
+                    onChangeStart: (double startValue) {
+                      // callback providing a starting value (when a pan gesture starts)
+                    },
+                    onChangeEnd: (double endValue) {
+                      // ucallback providing an ending value (when a pan gesture ends)
+                    },
+                    innerWidget: (double value) {
+                      // use your custom widget inside the slider (gets a slider value from the callback)
+                      return Center(
+                        child: Text('${value.toInt()}/${_sebhaCounterViewModel.currentSebha.count}',style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 35,
+                            fontWeight: FontWeight.bold
+                        ),textAlign: TextAlign.center,),
+                      );
+                    },
+                  ),
+
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: sebhaColor,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
-      ),
+        floatingActionButton: InkWell(
+          onTap: (){
+            ChangeNotifierProvider(
+              create: (_)=>_sebhaCounterViewModel,
+              child: _settingModalBottomSheet(context),
+            );
+          },
+          child: Container(
+            padding: EdgeInsets.all(5),
+            child: Text('الأذكار المحفوظة',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16),),
+            decoration: BoxDecoration(
+                color: Theme.of(context).accentColor,
+                border: Border.all(color: Colors.white,width: 1),
+                borderRadius: BorderRadius.all(Radius.circular(8))
+            ),
+          ),
+        ),
 
-    );
+      );
+    });
   }
 
   Widget _settingModalBottomSheet(context)  {
