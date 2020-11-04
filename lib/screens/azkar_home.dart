@@ -18,6 +18,7 @@ class AzkarHomeScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: Container(
+        color: Colors.green.withOpacity(0.3),
         padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         child: GridView.builder(
           itemCount:
@@ -34,6 +35,7 @@ class AzkarHomeScreen extends StatelessWidget {
               child: Container(
 //                  height: 50,
 //                    width: MediaQuery.of(context).size.width/2 - 30,
+
                 padding: EdgeInsets.all(8),
                 child: Center(
                     child: Text(e,
@@ -45,6 +47,7 @@ class AzkarHomeScreen extends StatelessWidget {
                     // color: Colors.greenAccent,
                     // backgroundBlendMode: BlendMode.colorDodge,
                     image: DecorationImage(
+
                         image: ExactAssetImage('assets/image/bg4.png'),
                         colorFilter: ColorFilter.mode(Colors.green, BlendMode.overlay),
                         fit: BoxFit.contain)),

@@ -39,7 +39,9 @@ print("sadasdad asd as da sd asd a d");
 
         backgroundColor: Theme.of(context).backgroundColor,
         appBar:  AppBar(
-          title: Text('سبحتي'),
+          title: Text('سبحتي',
+            style: TextStyle(fontFamily: 'Antic Decorative', letterSpacing: 3.0),
+          ),
           centerTitle: true,
           actions: [
             IconButton(

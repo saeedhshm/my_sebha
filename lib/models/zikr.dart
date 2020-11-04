@@ -20,7 +20,11 @@ class Zikr {
 
   String get category => _category;
 //  set category(String category) => _category = category;
-  int get count => int.parse(_count);
+  int get count {
+    if(int.tryParse(_count) != null)
+      return int.tryParse(_count);
+    return 1 ;
+  }
 //  set count(String count) => _count = count;
   String get description => _description;
 //  set description(String description) => _description = description;
@@ -30,6 +34,7 @@ class Zikr {
 //  set zekr(String zekr) => _zekr = zekr;
 
   Zikr.fromJson(Map<String, dynamic> json) {
+
     _category = json['category'];
     _count = json['count'];
     _description = json['description'];
