@@ -24,15 +24,11 @@ class SebhaCounterScreen extends StatelessWidget {
 
   }
 
-  _SebhaCounterScreenState(){
-//    _sebhaCounterViewModel = SebhaCounterViewModel();
-  }
+
 
   @override
   Widget build(BuildContext context) {
-// final _sebhaCounterViewModel = Provider.of<SebhaCounterViewModel>(context);
 
-print("sadasdad asd as da sd asd a d");
     return Consumer<SebhaCounterViewModel>(builder: (context,_sebhaCounterViewModel,cild){
       return Scaffold(
         key: scaffoldKey,
@@ -86,20 +82,20 @@ print("sadasdad asd as da sd asd a d");
               ),
 
 
-              InkWell(
-                onTap: (){
-                  if(_sebhaCounterViewModel.sebhaCounter == _sebhaCounterViewModel.currentSebha.count-1)
-                    Vibrate.vibrate();
-
-                  if(_sebhaCounterViewModel.sebhaCounter < _sebhaCounterViewModel.currentSebha.count)
-                    _sebhaCounterViewModel.incrementCounter();
-
-
-                },
-                child: Container(
+              Container(
 //                alignment: Alignment.bottomCenter,,
-                  width : MediaQuery.of(context).size.width - 33,
-                  height : MediaQuery.of(context).size.width - 33,
+                width : MediaQuery.of(context).size.width - 33,
+                height : MediaQuery.of(context).size.width - 33,
+                child: InkWell(
+                  onTap: (){
+                    if(_sebhaCounterViewModel.sebhaCounter == _sebhaCounterViewModel.currentSebha.count-1)
+                      Vibrate.vibrate();
+
+                    if(_sebhaCounterViewModel.sebhaCounter < _sebhaCounterViewModel.currentSebha.count)
+                      _sebhaCounterViewModel.incrementCounter();
+
+
+                  },
                   child: SleekCircularSlider(
                     appearance: CircularSliderAppearance(
                         animationEnabled: false,
@@ -143,11 +139,11 @@ print("sadasdad asd as da sd asd a d");
                       );
                     },
                   ),
+                ),
 
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: sebhaColor,
-                  ),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: sebhaColor,
                 ),
               ),
             ],
@@ -239,7 +235,6 @@ print("sadasdad asd as da sd asd a d");
                   _showErrorDialog(true,context);
                 }else {
                   Navigator.of(context).pop();
-                  print('no zikr found ==== ${zikr.zikrName} == ${zikr.count}');
                   _showErrorDialog(false,context);
                 }
               },

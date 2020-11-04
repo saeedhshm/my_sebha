@@ -18,39 +18,45 @@ class AzkarHomeScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: Container(
-        color: Colors.green.withOpacity(0.3),
+        color: Colors.white.withOpacity(0.3),
         padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         child: GridView.builder(
           itemCount:
               Provider.of<AzkarHomeViewModel>(context).azkarCategories.length,
           itemBuilder: (context, index) {
             String e = _viewModel.azkarCategories.toList()[index];
-            return InkWell(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return CategoryAzkarScreen(AzkarCatViewModel(
-                      azkar: _viewModel.getAzkarOfCat(e), category: e));
-                }));
-              },
-              child: Container(
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return CategoryAzkarScreen(AzkarCatViewModel(
+                        azkar: _viewModel.getAzkarOfCat(e), category: e));
+                  }));
+                },
+                child: Hero(
+                  tag: e,
+                  child: Container(
 //                  height: 50,
 //                    width: MediaQuery.of(context).size.width/2 - 30,
 
-                padding: EdgeInsets.all(8),
-                child: Center(
-                    child: Text(e,
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: Colors.white,letterSpacing: 3,wordSpacing: 3),
+                    padding: EdgeInsets.all(8),
+                    child: Center(
+                        child: Text(e,
+                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: Colors.white,letterSpacing: 3,),
 
-                        textAlign: TextAlign.center)),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(6)),
-                    // color: Colors.greenAccent,
-                    // backgroundBlendMode: BlendMode.colorDodge,
-                    image: DecorationImage(
+                            textAlign: TextAlign.center)),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(6)),
+                        // color: Colors.greenAccent,
+                        // backgroundBlendMode: BlendMode.colorDodge,
+                        image: DecorationImage(
 
-                        image: ExactAssetImage('assets/image/bg4.png'),
-                        colorFilter: ColorFilter.mode(Colors.green, BlendMode.overlay),
-                        fit: BoxFit.contain)),
+                            image: ExactAssetImage('assets/image/bg4.png'),
+                            colorFilter: ColorFilter.mode(Colors.green, BlendMode.colorBurn),
+                            fit: BoxFit.contain)),
+                  ),
+                ),
               ),
             );
           },

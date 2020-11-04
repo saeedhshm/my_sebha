@@ -1,13 +1,13 @@
 class Zikr {
   String _category;
-  String _count;
+  int _count;
   String _description;
   String _reference;
   String _zekr;
 
   Zikr(
       {String category,
-        String count,
+        int count,
         String description,
         String reference,
         String zekr}) {
@@ -21,11 +21,11 @@ class Zikr {
   String get category => _category;
 //  set category(String category) => _category = category;
   int get count {
-    if(int.tryParse(_count) != null)
-      return int.tryParse(_count);
-    return 1 ;
+    // if(int.tryParse(_count) != null)
+    //   return int.tryParse(_count);
+    return _count ;
   }
-//  set count(String count) => _count = count;
+ set count(int count) => _count = count;
   String get description => _description;
 //  set description(String description) => _description = description;
   String get reference => _reference;
@@ -36,7 +36,7 @@ class Zikr {
   Zikr.fromJson(Map<String, dynamic> json) {
 
     _category = json['category'];
-    _count = json['count'];
+    _count = int.tryParse(json['count']) ?? 1;
     _description = json['description'];
     _reference = json['reference'];
     _zekr = json['zekr'];

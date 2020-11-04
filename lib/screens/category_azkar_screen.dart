@@ -18,7 +18,7 @@ class _CategoryAzkarScreenState extends State<CategoryAzkarScreen> {
   _CategoryAzkarScreenState(this._viewModel);
   CardController controller; //Use this to trigger swap.
 
-  var _buttonController;
+  // var _buttonController;
 
 
   @override
@@ -30,134 +30,146 @@ class _CategoryAzkarScreenState extends State<CategoryAzkarScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          FlatButton(onPressed: null, child: Text('${_viewModel.azkar.length}',style: TextStyle(color: Colors.white70),),)
-        ],
-        title: Text(_viewModel.category,
-          style: TextStyle(fontFamily: 'ReemKufi', letterSpacing: 3.0),
+    return Hero(
+      tag: _viewModel.category,
+      child: Scaffold(
+        appBar: AppBar(
+          // backgroundColor: Color.fromRGBO(72, 158, 199, 1),
+          actions: [
+            FlatButton(onPressed: null, child: Text('${_viewModel.azkar.length}',style: TextStyle(color: Colors.white70),),)
+          ],
+          title: Container(
+            child: Text(_viewModel.category,
+              style: TextStyle(fontFamily: 'DroidSansArabic', fontSize: 20),
+            ),
+          ),
         ),
-      ),
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16,vertical: 16),
-        color: Colors.green.withOpacity(0.3),
-        child: TinderSwapCard(
+        body: Container(
+          padding: EdgeInsets.symmetric(horizontal: 16,vertical: 16),
+          color: Colors.green.withOpacity(0.3),
+          child: TinderSwapCard(
 
-          totalNum: _viewModel.azkar.length,
-          stackNum: _viewModel.azkar.length > 5 ? 5 : _viewModel.azkar.length - 1,
-          swipeEdge: 4.0,
-          maxWidth: MediaQuery.of(context).size.width ,
-          maxHeight: MediaQuery.of(context).size.height * 0.8,
-          minWidth: MediaQuery.of(context).size.width * 0.7,
-          minHeight: MediaQuery.of(context).size.height * 0.75,
-          cardBuilder: (context,index){
-            Zikr zikr = _viewModel.azkar[index];
-            return InkWell(
-              onTap: (){
-                controller.triggerRight();
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Card(
+            totalNum: _viewModel.azkar.length,
+            stackNum: _viewModel.azkar.length > 5 ? 5 : _viewModel.azkar.length - 1,
+            swipeEdge: 4.0,
+            maxWidth: MediaQuery.of(context).size.width ,
+            maxHeight: MediaQuery.of(context).size.height * 0.8,
+            minWidth: MediaQuery.of(context).size.width * 0.7,
+            minHeight: MediaQuery.of(context).size.height * 0.75,
+            cardBuilder: (context,index){
+              Zikr zikr = _viewModel.azkar[index];
+              return InkWell(
+                onTap: (){
+                  if(zikr.count == 1)
+                  controller.triggerRight();
+                  else
+                    zikr.count = zikr.count - 1;
+                  setState(() {
 
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
+                  });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Card(
 
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              CircleAvatar(
-                                backgroundColor: Colors.blueGrey,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Center(child: Text('${index + 1}',style: TextStyle(color: Colors.white),)),
-                                ),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
 
-                              ),
-                              SizedBox(width: 8,),
-                              Expanded(child: Text(zikr.description,textAlign: TextAlign.justify,style: TextStyle(
-                                fontSize: 12
-                              ),))
-                            ],
-                          ),
-
-                        ),
-
-                        Container(height: 0.75,color: Colors.grey[300],),
-                        Expanded(
-                          child: Container(
-                            // color: Colors.black.withOpacity(0.7),
+                      child: Column(
+                        children: [
+                          Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Center(
-                                child: SingleChildScrollView(
-                                  child: Text(zikr.zekr,
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal,color: Colors.green[900]),
-                                    textAlign: TextAlign.center,
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: Colors.blueGrey,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Center(child: Text('${index + 1}',style: TextStyle(color: Colors.white),)),
                                   ),
+
                                 ),
-                              ),
+                                SizedBox(width: 8,),
+                                Expanded(child: Text(zikr.description,textAlign: TextAlign.justify,style: TextStyle(
+                                  fontSize: 12
+                                ),))
+                              ],
                             ),
 
                           ),
-                        ),
-                        Container(height: 0.75,color: Colors.grey[300],),
-                        Row(
-                          children: [
-                            // SizedBox(width: 16,),
-                            FlatButton(onPressed: (){},
+
+                          Container(height: 0.75,color: Colors.grey[300],),
+                          Expanded(
+                            child: Container(
+                              // color: Colors.black.withOpacity(0.7),
+                              padding: const EdgeInsets.all(8.0),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(vertical:3.0,horizontal: 16),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                                    border: Border.all(color: Colors.green,width: 1)
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Text('العدد',style: TextStyle(color: Colors.green),),
-                                      SizedBox(width: 16,),
-                                      Text('${zikr.count}',style: TextStyle(color: Colors.green),)
-                                    ],
+                                child: Center(
+                                  child: SingleChildScrollView(
+                                    child: Text(zikr.zekr,
+                                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal,color: Colors.green[900]),
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
                                 ),
                               ),
 
                             ),
-                          ],
-                        )
-                      ],
-                    ),
+                          ),
+                          Container(height: 0.75,color: Colors.grey[300],),
+                          Row(
+                            children: [
+                              // SizedBox(width: 16,),
+                              FlatButton(onPressed: (){},
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(vertical:3.0,horizontal: 16),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                                      border: Border.all(color: Colors.green,width: 1)
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Text('العدد',style: TextStyle(color: Colors.green),),
+                                        SizedBox(width: 16,),
+                                        Text('${zikr.count}',style: TextStyle(color: Colors.green),)
+                                      ],
+                                    ),
+                                  ),
+                                ),
 
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+
+                    ),
                   ),
                 ),
-              ),
-            );
-          },// Card builder
-          cardController: controller = CardController( ),
-          // allowVerticalMovement: false,
+              );
+            },// Card builder
+            cardController: controller = CardController( ),
+            // allowVerticalMovement: false,
 
-          swipeUpdateCallback:
-              (DragUpdateDetails details, Alignment align) {
-            /// Get swiping card's alignment
-            if (align.x < 0) {
-              //Card is LEFT swiping
-            } else if (align.x > 0) {
-              //Card is RIGHT swiping
-            }
-          },
-          swipeDown: false,
-          swipeUp: false,
-          swipeCompleteCallback:
-              (CardSwipeOrientation orientation, int index) {
-            /// Get orientation & index of swiped card!
-          },
+            swipeUpdateCallback:
+                (DragUpdateDetails details, Alignment align) {
+              /// Get swiping card's alignment
+              if (align.x < 0) {
+                //Card is LEFT swiping
+              } else if (align.x > 0) {
+                //Card is RIGHT swiping
+              }
+            },
+            swipeDown: false,
+            swipeUp: false,
+            swipeCompleteCallback:
+                (CardSwipeOrientation orientation, int index) {
+              /// Get orientation & index of swiped card!
+            },
+          ),
         ),
       ),
     );
