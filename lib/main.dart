@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:my_sebha/generals/app_colors.dart';
 import 'package:my_sebha/models/counter.dart';
 import 'package:my_sebha/screens/azkar_home.dart';
 import 'package:my_sebha/screens/sebha_counter_screen.dart';
@@ -42,8 +43,8 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.green,
-        accentColor: Colors.green,
-        backgroundColor: Colors.green[50],
+        accentColor: Color.fromRGBO(3, 115, 89, 1),
+        backgroundColor: AppColors.background,
 
         appBarTheme: AppBarTheme(
             textTheme: TextTheme(title:TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.bold) )

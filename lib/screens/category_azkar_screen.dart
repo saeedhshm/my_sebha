@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_sebha/generals/app_colors.dart';
 import 'package:my_sebha/models/zikr.dart';
 import 'package:my_sebha/view_models/azkar_cat_view_model.dart';
 import 'package:flutter_tindercard/flutter_tindercard.dart';
@@ -34,7 +35,7 @@ class _CategoryAzkarScreenState extends State<CategoryAzkarScreen> {
       tag: _viewModel.category,
       child: Scaffold(
         appBar: AppBar(
-          // backgroundColor: Color.fromRGBO(72, 158, 199, 1),
+          backgroundColor: AppColors.darkGreen,
           actions: [
             FlatButton(onPressed: null, child: Text('${_viewModel.azkar.length}',style: TextStyle(color: Colors.white70),),)
           ],
@@ -44,9 +45,10 @@ class _CategoryAzkarScreenState extends State<CategoryAzkarScreen> {
             ),
           ),
         ),
+        // backgroundColor: AppColors.background,
         body: Container(
           padding: EdgeInsets.symmetric(horizontal: 16,vertical: 16),
-          color: Colors.green.withOpacity(0.3),
+          color: AppColors.background,
           child: TinderSwapCard(
 
             totalNum: _viewModel.azkar.length,
@@ -117,29 +119,57 @@ class _CategoryAzkarScreenState extends State<CategoryAzkarScreen> {
 
                             ),
                           ),
+                          zikr.reference != "" ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Expanded(child: SizedBox()),
+                                Text('{ ${zikr.reference} }',style: TextStyle(color: Colors.blueGrey,fontSize: 12),)
+                              ],
+                            ),
+                          ) : Container(),
                           Container(height: 0.75,color: Colors.grey[300],),
                           Row(
                             children: [
                               // SizedBox(width: 16,),
-                              FlatButton(onPressed: (){},
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(vertical:3.0,horizontal: 16),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                                    border: Border.all(color: Colors.green,width: 1)
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text('العدد',style: TextStyle(color: Colors.green),),
+                                      SizedBox(width: 16,),
+                                      Text('${zikr.count}',style: TextStyle(color: Colors.green),)
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Expanded(child: SizedBox()),
+                              FlatButton(
+                                onPressed: (){
+                                  controller.triggerRight();
+                                },
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
-                                    padding: const EdgeInsets.symmetric(vertical:3.0,horizontal: 16),
+                                    padding: const EdgeInsets.symmetric(vertical:3.0,horizontal: 20),
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                                      border: Border.all(color: Colors.green,width: 1)
+                                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                                        border: Border.all(color: Colors.green,width: 1)
                                     ),
                                     child: Row(
                                       children: [
-                                        Text('العدد',style: TextStyle(color: Colors.green),),
-                                        SizedBox(width: 16,),
-                                        Text('${zikr.count}',style: TextStyle(color: Colors.green),)
+                                        Text('تخطى',style: TextStyle(color: Colors.green),),
+
                                       ],
                                     ),
                                   ),
                                 ),
-
                               ),
                             ],
                           )

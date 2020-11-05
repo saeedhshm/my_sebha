@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_sebha/generals/app_colors.dart';
 import 'package:my_sebha/screens/azkar_home.dart';
 import 'package:my_sebha/screens/info_screen.dart';
 import 'package:my_sebha/screens/sebha_counter_screen.dart';
@@ -19,7 +20,7 @@ class TabsHomeScreen extends StatelessWidget {
       body:getCurrentScreen(_viewModel.currentTab),
       bottomNavigationBar: Container(
 //        padding: EdgeInsets.all(16),
-        color: Colors.green,
+        color: AppColors.darkGreen,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_sebha/generals/app_colors.dart';
 import 'package:my_sebha/screens/category_azkar_screen.dart';
 import 'package:my_sebha/view_models/azkar_cat_view_model.dart';
 import 'package:my_sebha/view_models/azkar_home_view_model.dart';
@@ -16,26 +17,28 @@ class AzkarHomeScreen extends StatelessWidget {
           style: TextStyle(fontFamily: 'Antic Decorative', letterSpacing: 3.0),
         ),
         centerTitle: true,
+        backgroundColor: AppColors.darkGreen,
       ),
+      backgroundColor: AppColors.background,
       body: Container(
         color: Colors.white.withOpacity(0.3),
-        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+        padding: EdgeInsets.symmetric(vertical: 1, horizontal: 16),
         child: GridView.builder(
           itemCount:
               Provider.of<AzkarHomeViewModel>(context).azkarCategories.length,
           itemBuilder: (context, index) {
             String e = _viewModel.azkarCategories.toList()[index];
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return CategoryAzkarScreen(AzkarCatViewModel(
-                        azkar: _viewModel.getAzkarOfCat(e), category: e));
-                  }));
-                },
-                child: Hero(
-                  tag: e,
+            return InkWell(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return CategoryAzkarScreen(AzkarCatViewModel(
+                      azkar: _viewModel.getAzkarOfCat(e), category: e));
+                }));
+              },
+              child: Hero(
+                tag: e,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: Container(
 //                  height: 50,
 //                    width: MediaQuery.of(context).size.width/2 - 30,
@@ -43,7 +46,7 @@ class AzkarHomeScreen extends StatelessWidget {
                     padding: EdgeInsets.all(8),
                     child: Center(
                         child: Text(e,
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: Colors.white,letterSpacing: 3,),
+                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: AppColors.textLightColor,letterSpacing: 3,),
 
                             textAlign: TextAlign.center)),
                     decoration: BoxDecoration(
@@ -52,9 +55,9 @@ class AzkarHomeScreen extends StatelessWidget {
                         // backgroundBlendMode: BlendMode.colorDodge,
                         image: DecorationImage(
 
-                            image: ExactAssetImage('assets/image/bg4.png'),
-                            colorFilter: ColorFilter.mode(Colors.green, BlendMode.colorBurn),
-                            fit: BoxFit.contain)),
+                            image: ExactAssetImage('assets/image/bg6.png'),
+                            // colorFilter: ColorFilter.mode(Colors.green, BlendMode.colorBurn),
+                            fit: BoxFit.fill)),
                   ),
                 ),
               ),

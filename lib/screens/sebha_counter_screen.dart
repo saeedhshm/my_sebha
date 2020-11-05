@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:my_sebha/generals/app_colors.dart';
 import 'package:my_sebha/models/my_zikr.dart';
 import 'package:my_sebha/screens/my_azkar_list_home.dart';
 import 'package:my_sebha/view_models/sebha_counter_view_model.dart';
@@ -39,6 +40,7 @@ class SebhaCounterScreen extends StatelessWidget {
             style: TextStyle(fontFamily: 'Antic Decorative', letterSpacing: 3.0),
           ),
           centerTitle: true,
+          backgroundColor: AppColors.darkGreen,
           actions: [
             IconButton(
               icon: Icon(Icons.add),
@@ -70,8 +72,8 @@ class SebhaCounterScreen extends StatelessWidget {
               Expanded(
                 child: Center(
                   child: Container(
-                    padding: EdgeInsets.all(5),
-                    child: Text(_sebhaCounterViewModel.currentSebha.zikrName,style: TextStyle(fontSize: 25,color: Colors.white, ),textAlign: TextAlign.center,),
+                    padding: EdgeInsets.all(16),
+                    child: Text(_sebhaCounterViewModel.currentSebha.zikrName,style: TextStyle(fontSize: 18,color: AppColors.textLightColor, ),textAlign: TextAlign.center,),
                     decoration: BoxDecoration(
                         color: Theme.of(context).accentColor,
                         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -132,7 +134,7 @@ class SebhaCounterScreen extends StatelessWidget {
                       // use your custom widget inside the slider (gets a slider value from the callback)
                       return Center(
                         child: Text('${value.toInt()}/${_sebhaCounterViewModel.currentSebha.count}',style: TextStyle(
-                            color: Colors.white,
+                            color: AppColors.darkGreen,
                             fontSize: 35,
                             fontWeight: FontWeight.bold
                         ),textAlign: TextAlign.center,),
@@ -143,7 +145,7 @@ class SebhaCounterScreen extends StatelessWidget {
 
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: sebhaColor,
+                  color: AppColors.background,
                 ),
               ),
             ],
@@ -157,8 +159,8 @@ class SebhaCounterScreen extends StatelessWidget {
             );
           },
           child: Container(
-            padding: EdgeInsets.all(5),
-            child: Text('الأذكار المحفوظة',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16),),
+            padding: EdgeInsets.all(8),
+            child: Text('الأذكار المحفوظة',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 13),),
             decoration: BoxDecoration(
                 color: Theme.of(context).accentColor,
                 border: Border.all(color: Colors.white,width: 1),
