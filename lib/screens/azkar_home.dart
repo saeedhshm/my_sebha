@@ -45,10 +45,13 @@ class AzkarHomeScreen extends StatelessWidget {
 
                     padding: EdgeInsets.all(8),
                     child: Center(
-                        child: Text(e,
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: AppColors.darkGreen,letterSpacing: 3,),
+                        child: Material(
+                          type: MaterialType.transparency,
+                          child: Text(e,
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: AppColors.darkGreen,letterSpacing: 3,),
 
-                            textAlign: TextAlign.center)),
+                              textAlign: TextAlign.center),
+                        )),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(6)),
                         border: Border.all(color:AppColors.darkGreen ),
