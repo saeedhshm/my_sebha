@@ -46,18 +46,20 @@ class AzkarHomeScreen extends StatelessWidget {
                     padding: EdgeInsets.all(8),
                     child: Center(
                         child: Text(e,
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: AppColors.textLightColor,letterSpacing: 3,),
+                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: AppColors.darkGreen,letterSpacing: 3,),
 
                             textAlign: TextAlign.center)),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(6)),
+                        border: Border.all(color:AppColors.darkGreen ),
                         // color: Colors.greenAccent,
                         // backgroundBlendMode: BlendMode.colorDodge,
-                        image: DecorationImage(
-
-                            image: ExactAssetImage('assets/image/bg6.png'),
-                            // colorFilter: ColorFilter.mode(Colors.green, BlendMode.colorBurn),
-                            fit: BoxFit.fill)),
+                        // image: DecorationImage(
+                        //
+                        //     image: ExactAssetImage('assets/image/bg6.png'),
+                        //     colorFilter: ColorFilter.mode(Colors.blue, BlendMode.screen),
+                        //     fit: BoxFit.fill)
+                    ),
                   ),
                 ),
               ),
